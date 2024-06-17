@@ -6,6 +6,7 @@ import numpy as np
 import cv2
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pbm', 'tiff', 'tif', 'bmp'}  # Define allowed file extensions
+MAX_WIDTH = 120
 
 st.markdown(
     """
@@ -83,7 +84,7 @@ def main():
                 new_shape = tools.get_max_shape(img_array.shape)
                 img_array = cv2.resize(img_array, (new_shape[::-1]))
             elif option == "Big ASCII Art":
-                img_array = tools.resize_image_with_fixed_width(img_array, 120)
+                img_array = tools.resize_image_with_fixed_width(img_array, MAX_WIDTH)
                 
             data = img_array.astype(np.float32)/255
             
