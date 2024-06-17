@@ -98,25 +98,34 @@ def enhance_image(im:np.ndarray) -> np.ndarray:
     # Converting image from LAB Color model to BGR color spcae
     return cv2.cvtColor(limg, cv2.COLOR_LAB2BGR)
     
-def process_image(img, threshold=50):
     
-    #img = cv2.imread(filename)
+def preprocess_image(img):
+    
     img = enhance_image(img)
-    
     img = cv2.resize(img, None, fx=.85, fy=1, interpolation=cv2.INTER_AREA)
     
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    
-    
-    new_shape = get_max_shape(img.shape)
-    img = cv2.resize(img, (new_shape[::-1]))
-    
-    
-    data = img.astype(np.float32)/255
-    
-    img_final = floyd_steinberg(data.copy(), threshold)
-    
-    ascii_darkmode = convert_array_to_braille_characters(img_final)
-    ascii_whitmode = convert_array_to_braille_characters(1-img_final)
-    
-    return ascii_darkmode, ascii_whitmode
+    return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+def resize_image_with_fixed_width(image, fixed_width):
+    """
+    Resize an image to a fixed width while maintaining the aspect ratio.
+
+    Parameters:
+    image_path (numpy.ndarray): The input image.
+    fixed_width (int): Desired width of the resized image.
+
+    Returns:
+    resized_image (numpy.ndarray): The resized image.
+    """
+
+    # Get the original dimensions of the image
+    height, width = image.shape[:2]
+
+    # Calculate the ratio of the new width to the old width
+    ratio = fixed_width / float(width)
+
+    # Calculate the new height to maintain the aspect ratio
+    new_height = int(height * ratio)
+
+    # Resize the image with the new dimensions
+    return cv2.resize(image, (fixed_width, new_height), interpolation=cv2.INTER_AREA)
