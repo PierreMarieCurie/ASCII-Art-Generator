@@ -89,7 +89,7 @@ def main():
                     cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
                 )
                 gray_image = tools.convert_to_gray(im_array)
-                faces = face_classifier.detectMultiScale(gray_image, minNeighbors=5, minSize=(40, 40))
+                faces = face_classifier.detectMultiScale(gray_image, 1.1, 5)
                             
             data = im_grey.astype(np.float32)/255
             
@@ -111,7 +111,8 @@ def main():
                     cv2.rectangle(im_display, (x, y), (x + w, y + h), (255, 0, 0), 4)
                 st.image(im_display, use_column_width=True)
                 
-                for (x, y, w, h) in faces:
+                left, right = st.columns(2)
+                for i, (x, y, w, h) in enumerate(faces):
                     im_grey_face = tools.preprocess_image(im_array[y:y+h, x:x+w])   
                     new_shape = tools.get_max_shape(im_grey_face.shape)
                     im_grey_face = cv2.resize(im_grey_face, (new_shape[::-1]))
@@ -120,16 +121,17 @@ def main():
                 
                     ascii_darkmode = tools.convert_array_to_braille_characters(img_final_face)
                     ascii_whitmode = tools.convert_array_to_braille_characters(1-img_final_face)
-                    left, right = st.columns(2)
-                    if flag_darkmode:
-                        left.code(ascii_darkmode)  
+                    
+                    if i%2:
+                        if flag_darkmode:
+                            left.code(ascii_darkmode)
+                        else:
+                            left.code(ascii_whitmode)
                     else:
-                        left.code(ascii_whitmode)
-                    
-                    
-                
-                    
-                    
+                        if flag_darkmode:
+                            right.code(ascii_darkmode)
+                        else:
+                            right.code(ascii_whitmode)                      
                     
                     
             elif option == "Big ASCII Art":
