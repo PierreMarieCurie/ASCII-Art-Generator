@@ -39,7 +39,7 @@ def main():
             
             option = st.selectbox(
                 "Select ASCII mode",
-                ("Little ASCII Art", "Multiple ASCII Art of human faces", "Big ASCII Art")
+                ("Small Art", "Human faces", "Huge Art")
                 )
             
             col1, col2 = st.columns([0.8, 0.2])
@@ -47,7 +47,7 @@ def main():
             # Slider to select the threshold
             col1.markdown('<div class="centered-text">Select a threshold</div>', unsafe_allow_html=True)
             col1.write("")
-            if option == "Big ASCII Art":
+            if option == "Huge Art":
                 min_value=4
                 max_value=30
                 step=2
@@ -77,14 +77,14 @@ def main():
             
             im_grey = tools.preprocess_image(im_array)        
                 
-            if option == "Little ASCII Art":
+            if option == "Small Art":
                 new_shape = tools.get_max_shape(im_grey.shape)
                 im_grey = cv2.resize(im_grey, (new_shape[::-1]))
                 
-            elif option == "Big ASCII Art":
+            elif option == "Huge Art":
                 im_grey = tools.resize_image_with_fixed_width(im_grey, MAX_WIDTH)
                 
-            elif option == 'Multiple ASCII Art of human faces':
+            elif option == 'Human faces':
                 face_classifier = cv2.CascadeClassifier(
                     cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
                 )
@@ -93,7 +93,7 @@ def main():
                             
             data = im_grey.astype(np.float32)/255
             
-            if option == "Little ASCII Art":
+            if option == "Small Art":
                 img_final = (data > threshold).astype(int)
                 
                 ascii_darkmode = tools.convert_array_to_braille_characters(img_final)
@@ -104,7 +104,7 @@ def main():
                     right.code(ascii_darkmode)  
                 else:
                     right.code(ascii_whitmode)
-            elif option == 'Multiple ASCII Art of human faces':
+            elif option == 'Human faces':
                 
                 im_display = im_array.copy()
                 for (x, y, w, h) in faces:
@@ -133,7 +133,7 @@ def main():
                         else:
                             right.code(ascii_whitmode)                      
                     
-            elif option == "Big ASCII Art":
+            elif option == "Huge Art":
                 img_final = dither.floyd_steinberg(data, threshold)
                 ascii_darkmode = tools.convert_array_to_braille_characters(img_final)
                 ascii_whitmode = tools.convert_array_to_braille_characters(1-img_final)

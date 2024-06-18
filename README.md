@@ -7,3 +7,5 @@ to do :
 - check if dithering works
 - check why spinner dosn't show
 - darkmode doesn't restart the ascii creation
+- check why rectangles are black sometimes
+- better UX... (combine small and huge with a toggle ?...)
