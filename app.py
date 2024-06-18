@@ -106,10 +106,12 @@ def main():
                     right.code(ascii_whitmode)
             elif option == 'Multiple ASCII Art of human faces':
                 
-                st.image(im_array, use_column_width=True)
+                im_display = im_array.copy()
+                for (x, y, w, h) in faces:
+                    cv2.rectangle(im_display, (x, y), (x + w, y + h), (255, 0, 0), 4)
+                st.image(im_display, use_column_width=True)
                 
                 for (x, y, w, h) in faces:
-                    cv2.rectangle(im_array, (x, y), (x + w, y + h), (255, 0, 0), 4)
                     im_grey_face = tools.preprocess_image(im_array[y:y+h, x:x+w])   
                     new_shape = tools.get_max_shape(im_grey_face.shape)
                     im_grey_face = cv2.resize(im_grey_face, (new_shape[::-1]))
