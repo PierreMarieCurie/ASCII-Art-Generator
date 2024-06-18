@@ -6,7 +6,7 @@ import numpy as np
 import cv2
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pbm', 'tiff', 'tif', 'bmp'}  # Define allowed file extensions
-MAX_WIDTH = 1120
+MAX_WIDTH = 500
 
 st.markdown(
     """
@@ -108,7 +108,7 @@ def main():
                 
                 im_display = im_array.copy()
                 for (x, y, w, h) in faces:
-                    cv2.rectangle(im_display, (x, y), (x + w, y + h), (255, 0, 0), 4)
+                    cv2.rectangle(im_display, (x, y), (x + w, y + h), (0, 0, 0), 4)
                 st.image(im_display, use_column_width=True)
                 
                 left, right = st.columns(2)
@@ -124,15 +124,17 @@ def main():
                     
                     if i%2:
                         if flag_darkmode:
-                            left.code(ascii_darkmode)
-                        else:
-                            left.code(ascii_whitmode)
-                    else:
-                        if flag_darkmode:
                             right.code(ascii_darkmode)
                         else:
-                            right.code(ascii_whitmode)                      
-                    
+                            right.code(ascii_whitmode)
+                    else:
+                        if flag_darkmode:
+                            left.code(ascii_darkmode)
+                        else:
+                            left.code(ascii_whitmode)                      
+                if len(faces) == 0:
+                    st.write("No human faces detected in this image :confounded:...")
+                
             elif option == "Huge Art":
                 img_final = dither.floyd_steinberg(data, threshold)
                 ascii_darkmode = tools.convert_array_to_braille_characters(img_final)
