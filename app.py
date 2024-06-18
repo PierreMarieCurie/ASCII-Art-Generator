@@ -73,7 +73,7 @@ def main():
                                             value=True,
                                             label_visibility="collapsed")
 
-        with st.spinner('Wait for it...'):
+        with st.spinner('ASCII in progress...'):
             
             im_grey = tools.preprocess_image(im_array)        
                 
@@ -133,13 +133,15 @@ def main():
                         else:
                             right.code(ascii_whitmode)                      
                     
-                    
             elif option == "Big ASCII Art":
                 img_final = dither.floyd_steinberg(data, threshold)
                 ascii_darkmode = tools.convert_array_to_braille_characters(img_final)
                 ascii_whitmode = tools.convert_array_to_braille_characters(1-img_final)
                 st.image(im_pillow, use_column_width=True)
-                st.code(ascii_darkmode)
+                if flag_darkmode:
+                    st.code(ascii_darkmode)
+                else:
+                    st.code(ascii_whitmode)
             else:
                 st.write("to do")
 
