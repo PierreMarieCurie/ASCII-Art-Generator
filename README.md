@@ -6,3 +6,4 @@ to do :
 - work on code cleaning
 - check if dithering works
 - check why spinner dosn't show
+- darkmode doesn't restart the ascii creation
