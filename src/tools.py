@@ -98,13 +98,31 @@ def enhance_image(im:np.ndarray) -> np.ndarray:
     # Converting image from LAB Color model to BGR color spcae
     return cv2.cvtColor(limg, cv2.COLOR_LAB2BGR)
     
-    
+def convert_to_gray(image):
+    # Check the number of channels in the image
+    if len(image.shape) == 3:
+        if image.shape[2] == 4:
+            # Convert 4-channel (RGBA/BGRA) to grayscale
+            gray_image = cv2.cvtColor(image, cv2.COLOR_BGRA2GRAY)
+        elif image.shape[2] == 3:
+            # Convert 3-channel (RGB/BGR) to grayscale
+            gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        else:
+            raise ValueError("Unexpected number of channels in image: {}".format(image.shape[2]))
+    else:
+        raise ValueError("Input image does not have 3 dimensions")
+
+    return gray_image
+
 def preprocess_image(img):
     
     img = enhance_image(img)
+    
     img = cv2.resize(img, None, fx=.85, fy=1, interpolation=cv2.INTER_AREA)
     
-    return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = convert_to_gray(img)
+    
+    return img
 
 def resize_image_with_fixed_width(image, fixed_width):
     """

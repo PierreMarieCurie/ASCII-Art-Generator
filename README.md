@@ -3,6 +3,6 @@
 Code for https://ascii-art-generator.streamlit.app/
 
 to do :
-- add option for face detection
+- work on code cleaning
 - check if dithering works
 - check why spinner dosn't show
