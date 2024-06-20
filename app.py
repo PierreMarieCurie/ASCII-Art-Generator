@@ -7,11 +7,13 @@ import cv2
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pbm', 'tiff', 'tif', 'bmp'}  # Define allowed file extensions
 
+st.markdown("""<style>.centered-text {text-align: center; color: white;}</style>""", unsafe_allow_html=True)
+
 # Streamlit app
 def main():
     
     # Create title
-    st.markdown("<h1 style='text-align: center; color: white;'>ASCII art creator</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='centered-text'>ASCII art creator</h1>", unsafe_allow_html=True)
 
     # Upload image
     uploaded_file = st.file_uploader("Upload an Image", type=ALLOWED_EXTENSIONS, label_visibility='hidden')
