@@ -89,9 +89,10 @@ def main():
                     st.image(im_pillow, use_column_width=True)
                     if flag_darkmode:
                         st.code(ascii_darkmode)
+                        st.download_button("Download ASCII as a text file", ascii_darkmode, "toto.txt")
                     else:
                         st.code(ascii_whitmode)
-                        
+                        st.download_button("Download ASCII as a text file", ascii_whitmode, "ASCII.txt")
             
             elif option == 'Human faces':
                 face_classifier = cv2.CascadeClassifier(
