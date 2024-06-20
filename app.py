@@ -7,17 +7,6 @@ import cv2
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pbm', 'tiff', 'tif', 'bmp'}  # Define allowed file extensions
 
-# PROBABLY CAN REMOVE ABOVE
-st.markdown(
-    """
-    <style>.centered-text {text-align: center;
-        color: white;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
 # Streamlit app
 def main():
     
@@ -137,7 +126,6 @@ def main():
                             left.code(ascii_whitmode)                      
                 if len(faces) == 0:
                     st.write("No human faces detected in this image :confounded:...")
-            
             
             else:
                 st.write("to do")
