@@ -30,22 +30,28 @@ def main():
             option = st.selectbox("Select ASCII mode", ("Normal", "Human faces"))
             
             min_value, max_value, step, default_value = 0.1, 0.9, 0.05, 0.5
+            
             if option == "Normal":
                 st.markdown('<div class="centered-text">Select a size</div>', unsafe_allow_html=True)
-                size_user = st.select_slider("hi", ["Small", "Medium", "Large", "Insane"], value="Small", label_visibility="collapsed")
+                _, large_center, _, = st.columns([0.05, 0.9, 0.05])
+                size_user = large_center.select_slider("hi", ["Small", "Medium", "Large", "Insane"], value="Small", label_visibility="collapsed")
                 if size_user != "Small":
                     min_value, max_value, step, default_value = 4, 30, 2, 16
-
+            
+            
             # Slider to select the threshold
-            col1, col2 = st.columns([0.8, 0.2])
-            col1.markdown('<div class="centered-text">Select a threshold</div>', unsafe_allow_html=True)
-            col1.write("")                
-            threshold = col1.slider("Select a threshold", min_value, max_value, default_value, step, label_visibility="collapsed")
+            
+            
+            
+            _, col2, col3 = st.columns([0.05, 0.75, 0.2])
+            col2.markdown('<div class="centered-text">Select a threshold</div>', unsafe_allow_html=True)
+            col2.write("")
+            threshold = col2.slider("Select a threshold", min_value, max_value, default_value, step, label_visibility="collapsed")
 
             # Toggle to select darkmode or not
-            col2.markdown('<div class="centered-text">Darkmode</div>', unsafe_allow_html=True)
-            col2.write("")
-            _, center_col, _ = col2.columns(3)
+            col3.markdown('<div class="centered-text">Darkmode</div>', unsafe_allow_html=True)
+            col3.write("")
+            _, center_col, _ = col3.columns(3)
             flag_darkmode = center_col.toggle("Darmode", True, label_visibility="collapsed")
 
         with st.spinner('ASCII in progress...'):
