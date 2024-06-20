@@ -13,7 +13,7 @@ st.markdown(
     <style>
     .centered-text {
         text-align: center;
-        color: white; /* Optional: to match dark mode */
+        color: white;
     }
     </style>
     """,
@@ -31,6 +31,7 @@ def main():
     
     if uploaded_file is not None:
         
+        # Load image
         im_pillow = Image.open(uploaded_file)
         im_array = np.array(im_pillow)
         
@@ -48,30 +49,17 @@ def main():
             col1.markdown('<div class="centered-text">Select a threshold</div>', unsafe_allow_html=True)
             col1.write("")
             if option == "Huge Art":
-                min_value=4
-                max_value=30
-                step=2
-                default_value=16
+                (min_value, max_value, step, default_value) = 4, 30, 2, 16
             else:
-                min_value=0.1
-                max_value=0.9
-                step=0.05
-                default_value=0.5
-            threshold = col1.slider("Select a threshold",
-                                    min_value=min_value,
-                                    max_value=max_value,
-                                    step=step,
-                                    value=default_value,
-                                    label_visibility="collapsed"
-                                    )
+                (min_value, max_value, step, default_value)= 0.1, 0.9, 0.05, 0.5
+                
+            threshold = col1.slider("Select a threshold", min_value, max_value, default_value, step, label_visibility="collapsed")
 
             # Toggle to select darkmode or not
             col2.markdown('<div class="centered-text">Darkmode</div>', unsafe_allow_html=True)
             col2.write("")
             _, center_col, _ = col2.columns(3)
-            flag_darkmode = center_col.toggle("Darmode",
-                                            value=True,
-                                            label_visibility="collapsed")
+            flag_darkmode = center_col.toggle("Darmode", True, label_visibility="collapsed")
 
         with st.spinner('ASCII in progress...'):
             
