@@ -38,11 +38,7 @@ def main():
                 if size_user != "Small":
                     min_value, max_value, step, default_value = 4, 30, 2, 16
             
-            
             # Slider to select the threshold
-            
-            
-            
             _, col2, col3 = st.columns([0.05, 0.75, 0.2])
             col2.markdown('<div class="centered-text">Select a threshold</div>', unsafe_allow_html=True)
             col2.write("")
@@ -108,7 +104,7 @@ def main():
                 
                 im_display = im_array.copy()
                 for (x, y, w, h) in faces:
-                    cv2.rectangle(im_display, (x, y), (x + w, y + h), (0, 0, 0), 4)
+                    cv2.rectangle(im_display, (x, y), (x + w, y + h), (200, 0, 0), 2)
                 st.image(im_display, use_column_width=True)
                 
                 left, right = st.columns(2)
