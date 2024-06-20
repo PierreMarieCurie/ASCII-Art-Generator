@@ -124,6 +124,9 @@ def preprocess_image(img):
     
     return img
 
+def increase_shape(shape, multiplier):
+    return tuple(x * multiplier for x in shape)
+
 def resize_image_with_fixed_width(image, fixed_width):
     """
     Resize an image to a fixed width while maintaining the aspect ratio.
