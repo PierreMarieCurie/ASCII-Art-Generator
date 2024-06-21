@@ -6,4 +6,5 @@ to do :
 - work on code cleaning
 - darkmode doesn't restart the ascii creation
 - possibility to choose between floyd_steinberg and atkinson for dithering
-- improve README
+- improve README (how to use the two options with illustration, installation on host...)
+- add Dockerfile
