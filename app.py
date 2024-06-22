@@ -42,11 +42,10 @@ def main():
             if option=="Normal":
                 if size_user != "Small":
                     index=1
-            algorithm = large_center.selectbox('Select an algorithm', ['Threshold', 'Floyd-Steinberg', 'Atkinson'], index=index, help="to do", label_visibility="collapsed")
-
+            algorithm = large_center.selectbox('Select an algorithm', ["Thresholding", 'Floyd-Steinberg', 'Atkinson'], index=index, help="to do", label_visibility="collapsed")
 
             min_value, max_value, step, default_value = 0.1, 0.9, 0.05, 0.5
-            if algorithm != "Threshold":
+            if algorithm != "Thresholding":
                 min_value, max_value, step, default_value = 4, 300, 2, 16
 
             # Slider to select the threshold
@@ -85,7 +84,7 @@ def main():
                 data = im_grey.astype(np.float32)/255
                 
                 # Algorithm (Thresholding or dithering)
-                if algorithm == 'Threshold':
+                if algorithm == "Thresholding":
                     img_final = (data > threshold).astype(int)
                 elif algorithm == 'Floyd-Steinberg':
                     img_final = dither.floyd_steinberg(data, threshold)
