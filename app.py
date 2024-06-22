@@ -38,6 +38,15 @@ def main():
                 if size_user != "Small":
                     min_value, max_value, step, default_value = 4, 30, 2, 16
             
+            # Select box to choose the algorithm to conver the image to ASCII
+            st.markdown('<div class="centered-text">Select an algorithm</div>', unsafe_allow_html=True)
+            _, large_center, _, = st.columns([0.05, 0.9, 0.05])
+            index=0
+            if option=="Normal":
+                if size_user != "Small":
+                    index=1
+            algorithm = large_center.selectbox('Select an algorithm', ['Threshold', 'Floyd-Steinberg', 'Atkinson'], index=index, help="to do", label_visibility="collapsed")
+
             # Slider to select the threshold
             st.write("")
             _, col2, col3 = st.columns([0.05, 0.75, 0.2])
@@ -50,15 +59,6 @@ def main():
             col3.write("")
             _, center_col, _ = col3.columns(3)
             flag_darkmode = center_col.toggle("Darmode", True, label_visibility="collapsed")
-
-            # Select box to choose the algorithm to conver the image to ASCII
-            st.write("")
-            index=0
-            if option=="Normal":
-                if size_user != "Small":
-                    index=1
-            _, large_center, _, = st.columns([0.05, 0.9, 0.05])     
-            algorithm = large_center.selectbox('Select an algorithm', ['Threshold', 'Floyd-Steinberg', 'Atkinson'], index=index, help="to do")
 
         with st.spinner('ASCII in progress...'):
             
