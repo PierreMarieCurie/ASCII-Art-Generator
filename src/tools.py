@@ -118,7 +118,7 @@ def preprocess_image(img):
     
     img = enhance_image(img)
     
-    img = cv2.resize(img, None, fx=.85, fy=1, interpolation=cv2.INTER_AREA)
+    img = cv2.resize(img, None, fx=.9, fy=1, interpolation=cv2.INTER_AREA)
     
     img = convert_to_gray(img)
     
