@@ -133,7 +133,7 @@ def main():
                     st.write("No human faces detected in this image :confounded:...")
             
             else:
-                st.write("to do")
+                st.write("Unrecognized option, see source code...")
             
 if __name__ == "__main__":
     main()
