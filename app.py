@@ -58,7 +58,7 @@ def main():
                 if size_user != "Small":
                     index=1
             _, large_center, _, = st.columns([0.05, 0.9, 0.05])     
-            large_center.selectbox('Select an algorithm', ['Threshold', 'Floyd-Steinberg', 'Atkinson'], index=index, help="to do")
+            algorithm = large_center.selectbox('Select an algorithm', ['Threshold', 'Floyd-Steinberg', 'Atkinson'], index=index, help="to do")
 
         with st.spinner('ASCII in progress...'):
             
@@ -83,8 +83,12 @@ def main():
                         
                     im_grey = cv2.resize(im_grey, (new_shape[::-1]))    
                     data = im_grey.astype(np.float32)/255
-                    img_final = dither.floyd_steinberg(data, threshold)
-                    
+                    if algorithm == 'Floyd-Steinberg':
+                        img_final = dither.floyd_steinberg(data, threshold)
+                    elif algorithm == 'Atkinson':
+                        img_final = dither.atkinson(data, threshold)
+                    else:
+                        st.write("to do")
                 ascii_darkmode = tools.convert_array_to_braille_characters(img_final)
                 ascii_whitmode = tools.convert_array_to_braille_characters(1-img_final)
                     
