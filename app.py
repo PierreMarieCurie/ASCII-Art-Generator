@@ -27,18 +27,19 @@ def main():
         # User selection
         with st.container(border=True):
             
-            option = st.selectbox("Select ASCII mode", ("Normal", "Human faces"))
+            option = st.selectbox("Select ASCII mode", ("Normal", "Human faces"), help="to do")
             
             min_value, max_value, step, default_value = 0.1, 0.9, 0.05, 0.5
             
             if option == "Normal":
                 st.markdown('<div class="centered-text">Select a size</div>', unsafe_allow_html=True)
                 _, large_center, _, = st.columns([0.05, 0.9, 0.05])
-                size_user = large_center.select_slider("hi", ["Small", "Medium", "Large", "Insane"], value="Small", label_visibility="collapsed")
+                size_user = large_center.select_slider("Size slider", ["Small", "Medium", "Large", "Insane"], value="Small", label_visibility="collapsed")
                 if size_user != "Small":
                     min_value, max_value, step, default_value = 4, 30, 2, 16
             
             # Slider to select the threshold
+            st.write("")
             _, col2, col3 = st.columns([0.05, 0.75, 0.2])
             col2.markdown('<div class="centered-text">Select a threshold</div>', unsafe_allow_html=True)
             col2.write("")
@@ -49,6 +50,15 @@ def main():
             col3.write("")
             _, center_col, _ = col3.columns(3)
             flag_darkmode = center_col.toggle("Darmode", True, label_visibility="collapsed")
+
+            # Select box to choose the algorithm to conver the image to ASCII
+            st.write("")
+            index=0
+            if option=="Normal":
+                if size_user != "Small":
+                    index=1
+            _, large_center, _, = st.columns([0.05, 0.9, 0.05])     
+            large_center.selectbox('Select an algorithm', ['Threshold', 'Floyd-Steinberg', 'Atkinson'], index=index, help="to do")
 
         with st.spinner('ASCII in progress...'):
             
