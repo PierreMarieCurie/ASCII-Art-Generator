@@ -29,15 +29,12 @@ def main():
             
             option = st.selectbox("Select ASCII mode", ("Normal", "Human faces"), help="to do")
             
-            min_value, max_value, step, default_value = 0.1, 0.9, 0.05, 0.5
-            
+            # Size of the ASCII art
             if option == "Normal":
                 st.markdown('<div class="centered-text">Select a size</div>', unsafe_allow_html=True)
                 _, large_center, _, = st.columns([0.05, 0.9, 0.05])
                 size_user = large_center.select_slider("Size slider", ["Small", "Medium", "Large", "Insane"], value="Small", label_visibility="collapsed")
-                if size_user != "Small":
-                    min_value, max_value, step, default_value = 4, 30, 2, 16
-            
+                
             # Select box to choose the algorithm to conver the image to ASCII
             st.markdown('<div class="centered-text">Select an algorithm</div>', unsafe_allow_html=True)
             _, large_center, _, = st.columns([0.05, 0.9, 0.05])
@@ -46,6 +43,11 @@ def main():
                 if size_user != "Small":
                     index=1
             algorithm = large_center.selectbox('Select an algorithm', ['Threshold', 'Floyd-Steinberg', 'Atkinson'], index=index, help="to do", label_visibility="collapsed")
+
+
+            min_value, max_value, step, default_value = 0.1, 0.9, 0.05, 0.5
+            if algorithm != "Threshold":
+                min_value, max_value, step, default_value = 4, 300, 2, 16
 
             # Slider to select the threshold
             st.write("")
@@ -65,13 +67,10 @@ def main():
             im_grey = tools.preprocess_image(im_array)        
             
             if option == "Normal":
-                new_shape = tools.get_max_shape(im_grey.shape)
                 
-                if size_user == "Small":
-                    im_grey = cv2.resize(im_grey, (new_shape[::-1]))
-                    data = im_grey.astype(np.float32)/255
-                    img_final = (data > threshold).astype(int)
-                else:
+                # Set shape of ASCII according to user parameter
+                new_shape = tools.get_max_shape(im_grey.shape)
+                if size_user != "Small":
                     if size_user == "Medium":
                         new_shape = tools.increase_shape(new_shape, 3)
                     elif size_user == "Large":
@@ -80,15 +79,22 @@ def main():
                         new_shape = tools.increase_shape(new_shape, 15)
                     else:
                         st.write("Size not recognized")
-                        
-                    im_grey = cv2.resize(im_grey, (new_shape[::-1]))    
-                    data = im_grey.astype(np.float32)/255
-                    if algorithm == 'Floyd-Steinberg':
-                        img_final = dither.floyd_steinberg(data, threshold)
-                    elif algorithm == 'Atkinson':
-                        img_final = dither.atkinson(data, threshold)
-                    else:
-                        st.write("to do")
+                
+                # Pre-process : resize and change data type
+                im_grey = cv2.resize(im_grey, (new_shape[::-1]))    
+                data = im_grey.astype(np.float32)/255
+                
+                # Algorithm (Thresholding or dithering)
+                if algorithm == 'Threshold':
+                    img_final = (data > threshold).astype(int)
+                elif algorithm == 'Floyd-Steinberg':
+                    img_final = dither.floyd_steinberg(data, threshold)
+                elif algorithm == 'Atkinson':
+                    img_final = dither.atkinson(data, threshold)
+                else:
+                    st.write("Unknow algorithm... see source code")
+                
+                # Convert binary image to ASCII made of braille characters
                 ascii_darkmode = tools.convert_array_to_braille_characters(img_final)
                 ascii_whitmode = tools.convert_array_to_braille_characters(1-img_final)
                     
