@@ -30,23 +30,22 @@ def main():
             option = st.selectbox("Select ASCII mode", ("Normal", "Human faces"), help="to do")
             
             # Size of the ASCII art
-            if option == "Normal":
-                st.markdown('<div class="centered-text">Select a size</div>', unsafe_allow_html=True)
+            if option == "Normal":                
                 _, large_center, _, = st.columns([0.05, 0.9, 0.05])
+                large_center.markdown('<div class="centered-text">Select a size</div>', unsafe_allow_html=True)
                 size_user = large_center.select_slider("Size slider", ["Small", "Medium", "Large", "Insane"], value="Small", label_visibility="collapsed")
-                
-            # Select box to choose the algorithm to conver the image to ASCII
-            st.markdown('<div class="centered-text">Select an algorithm</div>', unsafe_allow_html=True)
-            _, large_center, _, = st.columns([0.05, 0.9, 0.05])
-            index=0
+
+            # Select an algorithm            
+            algorithm = "Thresholding"
             if option=="Normal":
                 if size_user != "Small":
-                    index=1
-            algorithm = large_center.selectbox('Select an algorithm', ["Thresholding", 'Floyd-Steinberg', 'Atkinson'], index=index, help="to do", label_visibility="collapsed")
-
+                    large_center.markdown('<div class="centered-text">Select an algorithm</div>', unsafe_allow_html=True)
+                    algorithm = large_center.selectbox('Select an algorithm', ["Thresholding", 'Floyd-Steinberg', 'Atkinson'], index=1, help="to do", label_visibility="collapsed")             
+               
+             
             min_value, max_value, step, default_value = 0.1, 0.9, 0.05, 0.5
             if algorithm != "Thresholding":
-                min_value, max_value, step, default_value = 4, 300, 2, 16
+                min_value, max_value, step, default_value = 4, 32, 2, 16
 
             # Slider to select the threshold
             st.write("")
