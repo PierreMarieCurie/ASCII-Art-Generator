@@ -106,7 +106,7 @@ To get started with the ASCII Art Generator, choose the option you like :
 
 #### Prerequisites
 
-Before you begin, ensure you have Docker installed on your machine. If not, download and install Docker from [https://docs.docker.com/engine/install/](here).
+Before you begin, ensure you have Docker installed on your machine. If not, download and install Docker from [here](https://docs.docker.com/engine/install/).
 
 1. Clone the repository to your local machine:
     ```bash
