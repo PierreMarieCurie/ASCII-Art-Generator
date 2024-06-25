@@ -2,7 +2,6 @@
 
 Welcome to the ASCII Art Creator! This tool allows you to transform images into stunning ASCII art. This repo is the code source for https://ascii-art-generator.streamlit.app/.
 
-
 <p style="font-size: 5px;">
 ⣟⣯⢯⢯⣫⡳⡭⡪⢒⠪⡪⣚⢾⣝⡯⣯⣟⣽⣝⡯⣯⣫⢿⠽⠟⠛⠙⡩⢉⢉⠉⠉⠉⠩⠙⠙⠙⢛⢛⢟⣟⡿⣽⣻⡽⣯⡯⡯⣯⣫⢯⣳⣫⣳⢝⣝⢮⣫⢯⡳⣝⣝⡮⣫⣳⢝⡮⡳⡭⣝⣪⣓⣝⣪⣓⣝⣪⣓⣝⣪⡳
 ⣯⡾⡽⡽⡮⢮⣓⡪⣑⢍⡪⢮⡳⣗⣯⢷⣳⣗⢷⠽⠚⠈⠁⡐⠀⡁⡀⡂⡀⡂⠌⠄⠅⡂⢄⠂⠢⠠⠠⠠⢘⢙⠻⣺⣽⣳⡯⣟⢾⣺⢝⡮⣮⢮⣫⢮⢗⢷⡳⣝⡵⣳⢝⢮⢮⡳⡭⣝⠮⢮⡲⣕⢮⡲⠵⡪⢖⢵⣪⡲⣝
@@ -102,9 +101,10 @@ to do
 
 # License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the [MIT License](LICENSE). You can find the full text of the license in the `LICENSE` file.
 
 ## To do
+
 1. work on code cleaning
 2. darkmode doesn't restart the ascii creation
 3. improve README (how to use the two options with illustration, installation on host...)
