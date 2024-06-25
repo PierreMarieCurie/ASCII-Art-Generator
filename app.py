@@ -43,7 +43,7 @@ def main():
                     algorithm = large_center.selectbox('Select an algorithm', ["Thresholding", 'Floyd-Steinberg', 'Atkinson'], index=1, help="to do", label_visibility="collapsed")             
                
              
-            min_value, max_value, step, default_value = 0.1, 0.9, 0.05, 0.5
+            min_value, max_value, step, default_value = 0.3, 0.7, 0.02, 0.5
             if algorithm != "Thresholding":
                 min_value, max_value, step, default_value = 4, 32, 2, 16
 
