@@ -42,10 +42,10 @@ def main():
                     large_center.markdown('<div class="centered-text">Select an algorithm</div>', unsafe_allow_html=True)
                     algorithm = large_center.selectbox('Select an algorithm', ["Thresholding", 'Floyd-Steinberg', 'Atkinson'], index=1, help="to do", label_visibility="collapsed")             
                
-             
+            # Threshold values
             min_value, max_value, step, default_value = 0.3, 0.7, 0.02, 0.5
             if algorithm != "Thresholding":
-                min_value, max_value, step, default_value = 4, 32, 2, 16
+                min_value, max_value, step, default_value = 8, 32, 2, 16
 
             # Slider to select the threshold
             st.write("")
