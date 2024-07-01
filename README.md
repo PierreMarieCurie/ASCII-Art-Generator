@@ -80,7 +80,7 @@ To get started with the ASCII Art Generator, choose the option you like :
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/ascii-art-creator.git
+    git clone --depth 1 https://github.com/your-username/ascii-art-creator.git
     ```
 
 2. Navigate to the project directory:
@@ -110,7 +110,7 @@ Before you begin, ensure you have Docker installed on your machine. If not, down
 
 1. Clone the repository to your local machine:
     ```bash
-    git clone https://github.com/your-username/ascii-art-creator.git
+    git clone --depth 1 https://github.com/your-username/ascii-art-creator.git
     ```
 
 2. Navigate to the project directory:
