@@ -1,7 +1,6 @@
 from unicodedata import lookup
 import numpy as np
 import cv2
-from .dither import floyd_steinberg
 
 def convert_array_to_Braille_character(arr:np.ndarray) -> str:
     """
@@ -68,7 +67,7 @@ def get_max_shape(shape:tuple, max_length:int=500) -> tuple:
     # 8 : number of pixels in a single braille character
     # 500 : max number of characters allowed by Twitch
     # - size[0] : newline for every image row of the image
-    max_pixels = 8 * 500 - shape[0]
+    max_pixels = 8 * max_length - shape[0]
     
     # Ratio between the old size and the new
     ratio = (shape[0]*shape[1]/max_pixels)**.5
