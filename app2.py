@@ -1,28 +1,29 @@
 import streamlit as st
 import sys
 
-PAGE_PATH = "pagess"
+PAGE_PATH = "pages"
 SOURCE_PATH = "src"
 sys.path.append(PAGE_PATH)
 
 def multiportraitpage():
-    st.title("hehe")
+    st.title("to do or fusion witg portrait mode")
     
-def to_do():
-    st.title("blabla")
+def learnmorepage():
+    st.title("to do")
     
 home_page = st.Page(PAGE_PATH + "/home.py", title="Home page", icon=":material/home:")
 classic_page = st.Page(PAGE_PATH + "/classic.py", url_path='classic', title="Classic mode", icon=":material/photo_frame:")
-portrait_page = st.Page(PAGE_PATH + "/portrait.py", url_path='portrait', title="Portait mode", icon=":material/face:")
+portrait_page = st.Page(PAGE_PATH + "/portrait.py", url_path='portrait', title="Portait mode", icon=":material/person:")
 multiportrait_page = st.Page(multiportraitpage, url_path='multiportrait', title="Multi-portrait mode", icon=":material/group:")
-more_page = st.Page(to_do, url_path='tttt', title="to to", icon=":material/face:")
+gallery_page = st.Page(PAGE_PATH + "/gallery.py", url_path='gallery', title="Gallery", icon=":material/gallery_thumbnail:")
+learnmore_page = st.Page(learnmorepage, url_path='learnmore', title="Learn more", icon=":material/question_mark:")
 
 
 pg = st.navigation(
     {
-        "Home page": [home_page],
+        "Welcome": [home_page],
         "ASCII Tools": [classic_page, portrait_page, multiportrait_page],
-        "Ressources": [more_page]
+        "More": [gallery_page, learnmore_page]
     }
 )
     

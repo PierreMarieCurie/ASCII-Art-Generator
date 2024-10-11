@@ -1,6 +1,7 @@
 import streamlit as st
 import utils
 import cv2
+
 # Welcome title
 st.title("Portrait mode 🎨")
         
@@ -35,8 +36,8 @@ if uploaded_file is not None:
         
         else:        
             # User choice for background, left ear, right ear, neck, clothes
-            face_toggles = [[]] * 6
-            for i, i_face_part in enumerate([0, 1, 7, 8, 14, 16]):
+            face_toggles = [[]] * 7
+            for i, i_face_part in enumerate([0, 1, 7, 8, 14, 16, 17]):
                 face_toggles[i], dimension = utils.get_new_dimension_from_toggle(dimension, bboxes[i_face_part], face_parts[i_face_part])
             is_new_face_parts = True
         
@@ -55,4 +56,4 @@ if uploaded_file is not None:
             # Display images
             img_plot = st.session_state['img'].copy()
             cv2.rectangle(img_plot, (dimension[0], dimension[1]), (dimension[2], dimension[3]), (255, 0, 0), 2)
-            utils.display_images(img_plot, ascii, flag_small_art, flag_darkmode)    
+            utils.display_images(img_plot, ascii, flag_small_art, flag_darkmode)

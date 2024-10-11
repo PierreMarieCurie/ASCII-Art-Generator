@@ -6,11 +6,10 @@ from .model import BiSeNet
 
 FACE_PARSING_WEIGHTS_PATHNAME = 'weights/face_parsing.pth'
 RESNET18_WEIGTHS_PATHNAME = 'weights/resnet18-5c106cde.pth'
-FACE_PARTS = ['background', 'face', 'left eyebrow', 'right eyebrow',
-    'left eye', 'right eye', 'glasses', 'left ear', 'right ear',
-    'earrings', 'noise', 'inside the mouth', 'upper lip', 'lower lip',
-    
-    'neck', 'necklace', 'clothes', 'hair', 'hat']
+FACE_PARTS = ['Background', 'Face', 'Left eyebrow', 'Right eyebrow',
+    'Left eye', 'Right eye', 'Glasses', 'Left ear', 'Right ear',
+    'Earrings', 'Noise', 'Inside the mouth', 'Upper lip', 'Lower lip',
+    'Neck', 'Necklace', 'Clothes', 'Hair', 'Hat']
         
 BISENET_PREPROCESSING = transforms.Compose([
     transforms.ToTensor(),

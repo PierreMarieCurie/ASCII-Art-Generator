@@ -135,7 +135,6 @@ This project is licensed under the [MIT License](LICENSE). You can find the full
 
 ## To do
 
-1. work on code cleaning
-2. Check is an other port can be choose using docker
-3. darkmode doesn't restart the ascii creation
-4. add a gallery ? (st.navigation ?)
+1. Check is an other port can be choose using docker
+2. Credit MIT license for pytorch models
+3. fusion ears for portrait mode
