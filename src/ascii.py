@@ -115,6 +115,8 @@ def convert_to_gray(image):
 
 def preprocess_image(img):
     
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    
     img = enhance_image(img)
     
     img = cv2.resize(img, None, fx=.9, fy=1, interpolation=cv2.INTER_AREA)
@@ -126,26 +128,25 @@ def preprocess_image(img):
 def increase_shape(shape, multiplier):
     return tuple(x * multiplier for x in shape)
 
-def resize_image_with_fixed_width(image, fixed_width):
+def get_new_shape_with_width(im_shape, new_width):
     """
-    Resize an image to a fixed width while maintaining the aspect ratio.
+    Get a new shape from a width while maintaining the aspect ratio.
 
     Parameters:
     image_path (numpy.ndarray): The input image.
-    fixed_width (int): Desired width of the resized image.
+    new_width (int): Desired width of the resized image.
 
     Returns:
-    resized_image (numpy.ndarray): The resized image.
+    new shape (tuple): The new shape.
     """
 
     # Get the original dimensions of the image
-    height, width = image.shape[:2]
+    height, width = im_shape
 
     # Calculate the ratio of the new width to the old width
-    ratio = fixed_width / float(width)
+    ratio = new_width / float(width)
 
     # Calculate the new height to maintain the aspect ratio
     new_height = int(height * ratio)
 
-    # Resize the image with the new dimensions
-    return cv2.resize(image, (fixed_width, new_height), interpolation=cv2.INTER_AREA)
+    return (new_height, new_width)

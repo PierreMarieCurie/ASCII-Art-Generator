@@ -1,9 +1,11 @@
 import streamlit as st
 from PIL import Image
-from src import tools
+from src import ascii
 from src import dither
 import numpy as np
 import cv2
+from src.face_segmentation import FaceSegmentation
+import torch
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pbm', 'tiff', 'tif', 'bmp'}  # Define allowed file extensions
 
@@ -19,15 +21,26 @@ def main():
     uploaded_file = st.file_uploader("Upload an Image", type=ALLOWED_EXTENSIONS, label_visibility='hidden')
     
     if uploaded_file is not None:
-        
+
+        is_image_opened = True
+
+        if 'file_id' not in st.session_state:
+            st.session_state['file_id'] = uploaded_file.file_id
+            is_image_opened = False
+
+        elif st.session_state['file_id'] != uploaded_file.file_id:
+            st.session_state['file_id'] = uploaded_file.file_id
+            is_image_opened = False
+
         # Load image
-        im_pillow = Image.open(uploaded_file)
-        im_array = np.array(im_pillow)
+        if not is_image_opened:
+            im_pillow = Image.open(uploaded_file)
+            st.session_state['im_pillow'] = np.array(im_pillow)
         
         # User selection
         with st.container(border=True):
             
-            option = st.selectbox("Select ASCII mode", ("Normal", "Human faces"), help="to do")
+            option = st.selectbox("Select ASCII mode", ("Normal", "Human faces", "In Progress"), help="to do")
             
             # Size of the ASCII art
             if option == "Normal":                
@@ -59,22 +72,29 @@ def main():
             col3.write("")
             _, center_col, _ = col3.columns(3)
             flag_darkmode = center_col.toggle("Darmode", True, label_visibility="collapsed")
-
+            
+            if option == 'In Progress':
+                
+                if 'model' not in st.session_state:
+                    st.session_state['init_model'] = True
+                    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+                    st.session_state['model'] = FaceSegmentation(device)
+                    
         with st.spinner('ASCII in progress...'):
             
-            im_grey = tools.preprocess_image(im_array)        
+            im_grey = ascii.preprocess_image(np.array(st.session_state['im_pillow']))        
             
             if option == "Normal":
                 
                 # Set shape of ASCII according to user parameter
-                new_shape = tools.get_max_shape(im_grey.shape)
+                new_shape = ascii.get_max_shape(im_grey.shape)
                 if size_user != "Small":
                     if size_user == "Medium":
-                        new_shape = tools.increase_shape(new_shape, 3)
+                        new_shape = ascii.increase_shape(new_shape, 3)
                     elif size_user == "Large":
-                        new_shape = tools.increase_shape(new_shape, 5)
+                        new_shape = ascii.increase_shape(new_shape, 5)
                     elif size_user == "Insane":
-                        new_shape = tools.increase_shape(new_shape, 15)
+                        new_shape = ascii.increase_shape(new_shape, 15)
                     else:
                         st.write("Size not recognized")
                 
@@ -93,18 +113,18 @@ def main():
                     st.write("Unknow algorithm... see source code")
                 
                 # Convert binary image to ASCII made of braille characters
-                ascii_darkmode = tools.convert_array_to_braille_characters(img_final)
-                ascii_whitmode = tools.convert_array_to_braille_characters(1-img_final)
+                ascii_darkmode = ascii.convert_array_to_braille_characters(img_final)
+                ascii_whitmode = ascii.convert_array_to_braille_characters(1-img_final)
                     
                 if size_user == "Small":
                     left, right = st.columns(2)
-                    left.image(im_pillow, use_column_width=True)
+                    left.image(st.session_state['im_pillow'], use_column_width=True)
                     if flag_darkmode:
                         right.code(ascii_darkmode)  
                     else:
                         right.code(ascii_whitmode)
                 else:
-                    st.image(im_pillow, use_column_width=True)
+                    st.image(st.session_state['im_pillow'], use_column_width=True)
                     if flag_darkmode:
                         st.code(ascii_darkmode)
                         st.download_button("Download ASCII as a text file", ascii_darkmode, "toto.txt")
@@ -116,26 +136,26 @@ def main():
                 face_classifier = cv2.CascadeClassifier(
                     cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
                 )
-                gray_image = tools.convert_to_gray(im_array)
+                gray_image = ascii.convert_to_gray(np.array(st.session_state['im_pillow']))
                 faces = face_classifier.detectMultiScale(gray_image, 1.1, 5)
                             
                 data = im_grey.astype(np.float32)/255
                 
-                im_display = im_array.copy()
+                im_display = np.array(st.session_state['im_pillow']).copy()
                 for (x, y, w, h) in faces:
                     cv2.rectangle(im_display, (x, y), (x + w, y + h), (200, 0, 0), 2)
                 st.image(im_display, use_column_width=True)
                 
                 left, right = st.columns(2)
                 for i, (x, y, w, h) in enumerate(faces):
-                    im_grey_face = tools.preprocess_image(im_array[y:y+h, x:x+w])   
-                    new_shape = tools.get_max_shape(im_grey_face.shape)
+                    im_grey_face = ascii.preprocess_image(np.array(st.session_state['im_pillow'])[y:y+h, x:x+w])   
+                    new_shape = ascii.get_max_shape(im_grey_face.shape)
                     im_grey_face = cv2.resize(im_grey_face, (new_shape[::-1]))
                     data_face = im_grey_face.astype(np.float32)/255
                     img_final_face = (data_face > threshold).astype(int)
                 
-                    ascii_darkmode = tools.convert_array_to_braille_characters(img_final_face)
-                    ascii_whitmode = tools.convert_array_to_braille_characters(1-img_final_face)
+                    ascii_darkmode = ascii.convert_array_to_braille_characters(img_final_face)
+                    ascii_whitmode = ascii.convert_array_to_braille_characters(1-img_final_face)
                     
                     if i%2:
                         if flag_darkmode:
@@ -149,7 +169,23 @@ def main():
                             left.code(ascii_whitmode)                      
                 if len(faces) == 0:
                     st.write("No human faces detected in this image :confounded:...")
-            
+            elif option == 'In Progress':
+                    out, masks, boxes = st.session_state['model'].predict(np.array(st.session_state['im_pillow']))
+                    
+                    
+                    for i in range(6):
+
+                        # Draw the rectangle on the color image
+                        im_draw = np.array(st.session_state['im_pillow']).copy()
+                        st.write(boxes)
+                        cv2.rectangle(im_draw, (boxes[i][0], boxes[i][1]), (boxes[i][2], boxes[i][3]), (0, 255, 0), 2)
+
+                        #fig, axes = plt.subplots(1,2)
+                        #axes[0].imshow(masks[i,:,:], cmap='gray')
+                        #axes[0].set_title('mask')
+                        #axes[1].imshow(cv2.cvtColor(im_draw, cv2.COLOR_BGR2RGB))
+                        #axes[1].set_title('bbox')
+                        #plt.show()
             else:
                 st.write("Unrecognized option, see source code...")
             

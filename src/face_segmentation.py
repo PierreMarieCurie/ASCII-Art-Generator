@@ -2,23 +2,20 @@ import torchvision.transforms as transforms
 import cv2
 import torch
 import numpy as np
-
-#FACE_PARSING_PATHNAME = '.'
-#sys.path.insert(0, FACE_PARSING_PATHNAME)
 from .model import BiSeNet
 
 FACE_PARSING_WEIGHTS_PATHNAME = 'weights/face_parsing.pth'
 RESNET18_WEIGTHS_PATHNAME = 'weights/resnet18-5c106cde.pth'
 FACE_PARTS = ['background', 'face', 'left eyebrow', 'right eyebrow',
     'left eye', 'right eye', 'glasses', 'left ear', 'right ear',
-    'earrings', 'noise', 'inside the mouth', 'upper lips', 'lower lips',
+    'earrings', 'noise', 'inside the mouth', 'upper lip', 'lower lip',
+    
     'neck', 'necklace', 'clothes', 'hair', 'hat']
         
 BISENET_PREPROCESSING = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
 ])
-
 
 class FaceSegmentation:
     def __init__(self, device='cpu') -> None:
@@ -56,7 +53,7 @@ class FaceSegmentation:
         
         masks = [None]*len(FACE_PARTS)
 
-        for i in range(len(FACE_PARTS)): # peut etre loop sur masks ?
+        for i in range(len(FACE_PARTS)):
             mask = (segments == i).astype(np.uint8)
             masks[i] = cv2.resize(mask, original_size[::-1], interpolation=cv2.INTER_LINEAR)
             
@@ -80,10 +77,10 @@ class FaceSegmentation:
             return None
 
     def predict(self, im):
-        """ im must be a BGR image """
+        """ im must be a RGB image """
         
         original_size = im.shape[:2] 
-        im = self.__preprocess(im)
+        im = self.__preprocess(cv2.cvtColor(im, cv2.COLOR_RGB2BGR))
         
         with torch.no_grad():
             segments = self.net(im)[0].squeeze(0).cpu().numpy().argmax(0).astype(np.uint8)
