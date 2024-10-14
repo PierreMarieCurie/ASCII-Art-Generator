@@ -29,24 +29,34 @@ def load_image(file, session_state):
         
     return session_state, is_new_image
 
+def get_image(session_state):
+    with st.container(border=True):
+        col1, col2 = st.columns([0.85, 0.15], vertical_alignment="center")    
+        is_file = col1.file_uploader("Upload an Image", type=ALLOWED_EXTENSIONS, label_visibility="collapsed")
+
+    is_new_image = False
+    if is_file is not None:
+        st.session_state, is_new_image = load_image(is_file, session_state)
+        col2.image(st.session_state["img"])
+
+    return session_state, is_file, is_new_image
 
 def create_user_settings():
     with st.container(border=True):        
         # Small art
-        col1, col2 = st.columns([0.2, 0.75])
-        col1.write("")
-        flag_small_art = col1.toggle("Small art", False)
+        col1, col2, col3 = st.columns([0.02, 0.2, 0.76], vertical_alignment="center")
+        is_small_art = col2.toggle("Small art", False)
         
         # Size of the ASCII art
-        new_width = col2.slider("Select a size", 80, 600, 100, disabled=flag_small_art)
+        new_width = col3.slider("Select a size", 80, 400, 100, disabled=is_small_art)
         
         # Select an algorithm            
         algorithm = st.selectbox('Select an algorithm',
                                     ["Thresholding", 'Floyd-Steinberg', 'Atkinson'],
                                     index=1,
-                                    help="Floyd-Steinberg and Atkinson algorithms refine local contrast better than Thresholding but take longer to compute",
-                                    disabled=flag_small_art)
-        if flag_small_art:
+                                    help="Floyd-Steinberg and Atkinson algorithms refine local contrast better than Thresholding but take longer to compute and need large images",
+                                    disabled=is_small_art)
+        if is_small_art:
             algorithm = "Thresholding"
             
         # Threshold values
@@ -55,14 +65,13 @@ def create_user_settings():
             min_value, max_value, step, default_value = 8, 32, 2, 16
 
         # Slider to select the threshold
-        col1, _, col2 = st.columns([0.75, 0.05, 0.2])
+        col1, col2, col3 = st.columns([0.75, 0.02, 0.23], vertical_alignment="center")
         threshold = col1.slider("Select a threshold", min_value, max_value, default_value, step)
 
         # Toggle to select darkmode or not
-        col2.write("")
-        flag_darkmode = col2.toggle("Darkmode", True)
+        flag_darkmode = col3.toggle("Darkmode", True)
         
-        return {'new_width':new_width, 'algorithm':algorithm, 'threshold':threshold}, flag_small_art, flag_darkmode
+        return {'new_width':new_width, 'algorithm':algorithm, 'threshold':threshold}, is_small_art, flag_darkmode
 
 def is_it_new_session_state_value(session_state, key, value):
     is_new = False
@@ -72,11 +81,11 @@ def is_it_new_session_state_value(session_state, key, value):
         is_new = True
     return is_new
 
-def transform_image(img, setting, flag_small_art):
+def transform_image(img, setting, is_small_art):
     im_grey = ascii.preprocess_image(img)
         
     # Set shape of ASCII according to user parameter
-    if flag_small_art:
+    if is_small_art:
         new_shape = ascii.get_max_shape(im_grey.shape)
     else:
         new_shape = ascii.get_new_shape_with_width(im_grey.shape, setting["new_width"])
@@ -108,24 +117,7 @@ def load_face_segmentation_model(session_state):
             session_state['model'] = FaceSegmentation(device)
             session_state["device"] = device
     
-    return session_state
-
-def display_images(img, ascii, flag_small_art, flag_darkmode):
-    if flag_small_art:
-        left, right = st.columns(2)
-        left.image(img, use_column_width=True)
-        if flag_darkmode:
-            right.code(ascii[0])  
-        else:
-            right.code(ascii[1])
-    else:
-        st.image(img, use_column_width=True)
-        if flag_darkmode:
-            st.code(ascii[0])
-            st.download_button("Download ASCII as a text file", ascii[0], "ASCII.txt")
-        else:
-            st.code(ascii[1])
-            st.download_button("Download ASCII as a text file", ascii[1], "ASCII.txt")
+    return session_state    
                     
 def get_largest_box(box1, box2):
     if box1 is None:
@@ -138,9 +130,15 @@ def get_largest_box(box1, box2):
                 max(box1[2], box2[2]),
                 max(box1[3], box2[3])]
 
-def get_new_dimension_from_toggle(dimension, box, face_part):
-    disabled = box is None
-    toggle = st.toggle(face_part, value=False, disabled=disabled)
-    if toggle:
-        dimension = get_largest_box(dimension, box)
-    return toggle, dimension
+def get_face_part_indices(face_part_map, indices_disable):
+    indices = []
+    with st.container(border=True):
+        cols = st.columns(len(face_part_map), vertical_alignment="top")
+        for index_col, (name, indices_face_part) in enumerate(face_part_map.items()):
+            cols[index_col].write(name)
+            disable = all([index_face_part in indices_disable for index_face_part in indices_face_part])
+            _, c = cols[index_col].columns([1, 500])
+            if c.toggle(label=str(index_col), value=False, disabled=disable, label_visibility="hidden"):
+                for index_face_part in indices_face_part:
+                    indices.append(index_face_part)
+    return indices

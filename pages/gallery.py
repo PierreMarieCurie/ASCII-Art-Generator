@@ -1,18 +1,18 @@
 import streamlit as st
 import os
 
+# Set the folder path where the .txt files are located
+GALLERY_PATH = "gallery"
+
 # Welcome title
 st.title("Gallery 🎨")
 
-# Set the folder path where the .txt files are located
-folder_path = "gallery"
-
 # Loop through all files in the folder
-for file_name in os.listdir(folder_path):
+for file_name in os.listdir(GALLERY_PATH):
     # Check if the file is a .txt file
     if file_name.endswith(".txt"):
         # Create the full file path
-        file_path = os.path.join(folder_path, file_name)
+        file_path = os.path.join(GALLERY_PATH, file_name)
         
         # Open and read the file content
         with open(file_path, 'r') as file:
