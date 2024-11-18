@@ -8,6 +8,13 @@ import torch
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pbm', 'tiff', 'tif', 'bmp'}  # Define allowed file extensions
 
+FACE_PART_MAP = {
+                'Face 🦲':[1],
+                'Ears 👂':[7, 8],
+                'Clothes 👔':[16],
+                'Hair 🦱':[17],
+                'Background :material/background_replace:':[0]}
+
 def load_image(file, session_state):
     
     # Check is we need to load the image again
@@ -48,7 +55,7 @@ def create_user_settings():
         is_small_art = col2.toggle("Small art", False)
         
         # Size of the ASCII art
-        new_width = col3.slider("Select a size", 80, 400, 100, disabled=is_small_art)
+        new_width = col3.slider("Select a size", 80, 800, 100, disabled=is_small_art)
         
         # Select an algorithm            
         algorithm = st.selectbox('Select an algorithm',
@@ -130,11 +137,11 @@ def get_largest_box(box1, box2):
                 max(box1[2], box2[2]),
                 max(box1[3], box2[3])]
 
-def get_face_part_indices(face_part_map, indices_disable):
+def get_face_part_indices(indices_disable=[]):
     indices = []
     with st.container(border=True):
-        cols = st.columns(len(face_part_map), vertical_alignment="top")
-        for index_col, (name, indices_face_part) in enumerate(face_part_map.items()):
+        cols = st.columns(len(FACE_PART_MAP))
+        for index_col, (name, indices_face_part) in enumerate(FACE_PART_MAP.items()):
             cols[index_col].write(name)
             disable = all([index_face_part in indices_disable for index_face_part in indices_face_part])
             _, c = cols[index_col].columns([1, 500])
