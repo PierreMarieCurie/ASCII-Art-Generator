@@ -5,7 +5,7 @@ import os
 GALLERY_PATH = "gallery"
 
 # Welcome title
-st.title("Gallery 🎨")
+st.markdown("<h1 style='text-align: center;'>Gallery 🎨</h1>", unsafe_allow_html=True)
 
 # Loop through all files in the folder
 for file_name in os.listdir(GALLERY_PATH):

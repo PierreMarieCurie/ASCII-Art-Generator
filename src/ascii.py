@@ -2,7 +2,7 @@ from unicodedata import lookup
 import numpy as np
 import cv2
 
-def convert_array_to_Braille_character(arr:np.ndarray) -> str:
+def convert_array_to_braille_character(arr:np.ndarray) -> str:
     """
     Convert a numpy array to a braille character (ex : array([[1, 1], -> '⡝')
                                                               [0, 1],
@@ -28,7 +28,7 @@ def convert_array_to_Braille_character(arr:np.ndarray) -> str:
         
     # Mostly extracted from https://stackoverflow.com/a/66085578/23149314)
     return chr(ord(lookup('BRAILLE PATTERN BLANK')) + int(str(arr), 2))
-    
+
 def convert_array_to_braille_characters(im:np.ndarray) -> str:
     """ Convert an image of 0 and 1 to a string in Braille
 
@@ -46,8 +46,8 @@ def convert_array_to_braille_characters(im:np.ndarray) -> str:
     for row in range(0, im.shape[0]//4*4, 4):
         for col in range(0, im.shape[1]//2*2, 2):
             
-            # Convert a group of 8 pixel to a braille cha
-            ascii_art_str += convert_array_to_Braille_character(im[row:row+4,col:col+2])
+            # Convert a group of 8 pixel to a braille character
+            ascii_art_str += convert_array_to_braille_character(im[row:row+4,col:col+2])
         
         # New line
         ascii_art_str += '\n'

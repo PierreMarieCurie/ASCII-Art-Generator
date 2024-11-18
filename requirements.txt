@@ -2,3 +2,4 @@ numpy==2.1.3
 opencv-python-headless==4.10.0.84
 pillow==11.0.0
 streamlit==1.40.1
+numba==0.60.0

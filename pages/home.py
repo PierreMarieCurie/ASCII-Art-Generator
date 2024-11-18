@@ -1,7 +1,7 @@
 import streamlit as st
-#RAJOUTER PAGE LINK
+
 # Welcome title
-st.title("Welcome to the Ultimate ASCII Art Generator! 🎨")
+st.markdown("<h1 style='text-align: center;'>Welcome to the Ultimate ASCII Art Generator! 🎨</h1>", unsafe_allow_html=True)
 
 # Introduction section
 st.write("""

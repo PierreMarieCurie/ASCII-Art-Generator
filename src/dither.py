@@ -1,6 +1,8 @@
 import numpy as np
+from numba import njit
 
-#https://github.com/lukepolson/youtube_channel/blob/main/Python%20Metaphysics%20Series/vid39.ipynb
+# From https://github.com/lukepolson/youtube_channel/blob/main/Python%20Metaphysics%20Series/vid39.ipynb
+@njit
 def floyd_steinberg(image, frac=16, round_func=round):
     Lx, Ly = image.shape
     for j in range(Ly):
@@ -15,7 +17,8 @@ def floyd_steinberg(image, frac=16, round_func=round):
                 if i<Lx-1: image[i+1,j+1] += (1/frac)*err     
     return np.clip(image, a_min=0, a_max=1)
 
-#https://github.com/lukepolson/youtube_channel/blob/main/Python%20Metaphysics%20Series/vid39.ipynb
+# From https://github.com/lukepolson/youtube_channel/blob/main/Python%20Metaphysics%20Series/vid39.ipynb
+@njit
 def atkinson(image, frac = 8):
     Lx, Ly = image.shape
     for j in range(Ly):
