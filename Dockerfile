@@ -1,13 +1,19 @@
-# app/Dockerfile
-
-FROM python:3.9-slim
-
-COPY . /app
+FROM python:3.10-slim
 
 WORKDIR /app
 
-RUN pip3 install -r requirements.txt
+RUN  apt-get update \
+  && apt-get install -y wget \
+  && rm -rf /var/lib/apt/lists/*
 
-EXPOSE 8501
+RUN mkdir weights
 
-ENTRYPOINT ["streamlit","run","app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+RUN wget https://download.pytorch.org/models/resnet18-5c106cde.pth -O weights/resnet18-5c106cde.pth
+
+RUN wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=154JgKpzCPW82qINcVieuPH3fZ2e0P812' -O weights/face_parsing.pth
+
+COPY . /app
+
+RUN pip install -r requirements.txt --no-cache-dir --root-user-action=ignore
+
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8501"]

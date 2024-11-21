@@ -17,21 +17,21 @@ st.subheader("1. Classic Mode")
 st.write("""
 In **Classic Mode**, you can quickly turn any image into ASCII art. It's perfect for landscapes, objects, or whatever you want to transform into a work of text-based art!
 """)
-st.image("data/macron.PNG", caption="Example of Classic Mode")
+#st.image("data/macron.PNG", caption="Example of Classic Mode")
 
 # Portrait option section with AI-powered mention and image
 st.subheader("2. Portrait Mode (AI-powered)")
 st.write("""
-**Portrait Mode**, powered by AI, is all about faces. It adds extra detail to your portraits, making them stand out as beautifully contoured ASCII art.
+**Portrait Mode**, powered by AI, is all about faces. The generation tool automatically detects the facial parts in the image, and you can then choose which ones you want to appear in the ASCII.
 """)
-st.image("data/macron.PNG", caption="Example of Portrait Mode")
+#st.image("data/macron.PNG", caption="Example of Portrait Mode")
 
 # Multi-portrait option section with AI-powered mention and image
 st.subheader("3. Multi-Portrait Mode (AI-powered)")
 st.write("""
-Want to convert multiple faces in one image? **Multi-Portrait Mode** uses AI to detect and enhance each face, turning them all into detailed ASCII art portraits.
+Want to convert multiple faces in one image? **Multi-Portrait Mode** uses AI to detect and enhance each face, turning them all into detailed ASCII art portraits. Like portrait mode, the facial parts in the image.
 """)
-st.image("data/macron.PNG", caption="Example of Multi-Portrait Mode")
+#st.image("data/macron.PNG", caption="Example of Multi-Portrait Mode")
 
 # Closing statement
 st.write("""
