@@ -1,9 +1,8 @@
 from unicodedata import lookup
 import numpy as np
 import cv2
-from .dither import floyd_steinberg
 
-def convert_array_to_Braille_character(arr:np.ndarray) -> str:
+def convert_array_to_braille_character(arr:np.ndarray) -> str:
     """
     Convert a numpy array to a braille character (ex : array([[1, 1], -> '⡝')
                                                               [0, 1],
@@ -29,7 +28,7 @@ def convert_array_to_Braille_character(arr:np.ndarray) -> str:
         
     # Mostly extracted from https://stackoverflow.com/a/66085578/23149314)
     return chr(ord(lookup('BRAILLE PATTERN BLANK')) + int(str(arr), 2))
-    
+
 def convert_array_to_braille_characters(im:np.ndarray) -> str:
     """ Convert an image of 0 and 1 to a string in Braille
 
@@ -47,8 +46,8 @@ def convert_array_to_braille_characters(im:np.ndarray) -> str:
     for row in range(0, im.shape[0]//4*4, 4):
         for col in range(0, im.shape[1]//2*2, 2):
             
-            # Convert a group of 8 pixel to a braille cha
-            ascii_art_str += convert_array_to_Braille_character(im[row:row+4,col:col+2])
+            # Convert a group of 8 pixel to a braille character
+            ascii_art_str += convert_array_to_braille_character(im[row:row+4,col:col+2])
         
         # New line
         ascii_art_str += '\n'
@@ -68,7 +67,7 @@ def get_max_shape(shape:tuple, max_length:int=500) -> tuple:
     # 8 : number of pixels in a single braille character
     # 500 : max number of characters allowed by Twitch
     # - size[0] : newline for every image row of the image
-    max_pixels = 8 * 500 - shape[0]
+    max_pixels = 8 * max_length - shape[0]
     
     # Ratio between the old size and the new
     ratio = (shape[0]*shape[1]/max_pixels)**.5
@@ -116,6 +115,8 @@ def convert_to_gray(image):
 
 def preprocess_image(img):
     
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    
     img = enhance_image(img)
     
     img = cv2.resize(img, None, fx=.9, fy=1, interpolation=cv2.INTER_AREA)
@@ -127,26 +128,25 @@ def preprocess_image(img):
 def increase_shape(shape, multiplier):
     return tuple(x * multiplier for x in shape)
 
-def resize_image_with_fixed_width(image, fixed_width):
+def get_new_shape_with_width(im_shape, new_width):
     """
-    Resize an image to a fixed width while maintaining the aspect ratio.
+    Get a new shape from a width while maintaining the aspect ratio.
 
     Parameters:
     image_path (numpy.ndarray): The input image.
-    fixed_width (int): Desired width of the resized image.
+    new_width (int): Desired width of the resized image.
 
     Returns:
-    resized_image (numpy.ndarray): The resized image.
+    new shape (tuple): The new shape.
     """
 
     # Get the original dimensions of the image
-    height, width = image.shape[:2]
+    height, width = im_shape
 
     # Calculate the ratio of the new width to the old width
-    ratio = fixed_width / float(width)
+    ratio = new_width / float(width)
 
     # Calculate the new height to maintain the aspect ratio
     new_height = int(height * ratio)
 
-    # Resize the image with the new dimensions
-    return cv2.resize(image, (fixed_width, new_height), interpolation=cv2.INTER_AREA)
+    return (new_height, new_width)

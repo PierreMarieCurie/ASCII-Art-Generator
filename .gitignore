@@ -1,1 +1,4 @@
 *.pyc
+weights/
+data/
+*.ipynb

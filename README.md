@@ -1,6 +1,6 @@
 # ASCII-Art-Generator
 
-Welcome to the ASCII Art Creator! This tool allows you to transform images into stunning ASCII art. This repo is the code source for https://ascii-art-generator.streamlit.app/.
+Welcome to the ASCII Art Creator! This tool allows you to transform images into stunning ASCII art.
 
 <p style="font-size: 5px;"></p>
 
@@ -62,19 +62,15 @@ Welcome to the ASCII Art Creator! This tool allows you to transform images into 
 
 ## Features
 
-- **Image to ASCII Art**: Transform images into intricate ASCII representations.
+- **Image to ASCII Art**: Transform images into ASCII representations.
 - **Supports Various Sizes**: Create both small and large ASCII art images.
 - **Customizable Settings**: Adjust threshold value, algorithms, darkmode and more to fine-tune your art.
-- **Human Faces Mode**: Includes a mode specifically for generating ASCII art from human faces in images.
+- **Human Faces Modes**: Includes two modes specifically for generating ASCII art from human faces in images.
 - **Save and Share**: Save your creations by coping or as text files then share them as you like.
 
 ## Installation
 
 To get started with the ASCII Art Generator, choose the option you like :
-
-### Online
-
- Just go to https://ascii-art-generator.streamlit.app/
 
 ### On your machine using streamlit
 
@@ -97,7 +93,7 @@ To get started with the ASCII Art Generator, choose the option you like :
     ```bash
     streamlit run app.py 
     ```
-    You can also set a different port number (Note that Streamlit will increment the port number if it is used):
+    You can also set a different port number (Note that Streamlit will increment the port number if it is alwready used):
     ```bash
     streamlit run app.py --server.port 8080
     ```
@@ -107,6 +103,8 @@ To get started with the ASCII Art Generator, choose the option you like :
 #### Prerequisites
 
 Before you begin, ensure you have Docker installed on your machine. If not, download and install Docker from [here](https://docs.docker.com/engine/install/).
+
+#### Steps
 
 1. Clone the repository to your local machine:
     ```bash
@@ -120,22 +118,23 @@ Before you begin, ensure you have Docker installed on your machine. If not, down
 
 3. Build the Docker image:
     ```bash
-    docker build -t ASCII-generator .
+    docker build -t ascii-generator .
     ```
-    This command will create a Docker image named ASCII-generator.
+    This command will create a Docker image named **ascii-generator**.
 
 4. Run the container
     ```bash
-    docker run -p 8501:8501 ASCII-generator
+    docker run -p 1234:8501 ascii-generator 
     ```
-    This will start the Streamlit app on port 8501. You can access it by navigating to http://localhost:8501 in your web browser.
+    This will start the app on port 1234. You can access it by navigating to http://localhost:1234 in your web browser.
+
+
 # License
 
 This project is licensed under the [MIT License](LICENSE). You can find the full text of the license in the `LICENSE` file.
 
-## To do
+# References
 
-1. work on code cleaning
-2. Check is an other port can be choose using docker
-3. darkmode doesn't restart the ascii creation
-4. add a gallery ? (st.navigation ?)
+- Face detection : [OpenCV using using Haar Cascades](https://docs.opencv.org/4.x/d2/d99/tutorial_js_face_detection.html)
+- Face segmentation : [Face-parsing.PyTorch from zllrunning](https://github.com/zllrunning/face-parsing.PyTorch/tree/master)
+- Dithering : [Luke Polson](https://github.com/lukepolson/youtube_channel/blob/main/Python%20Metaphysics%20Series/vid39.ipynb)
