@@ -23,8 +23,8 @@ pg = st.navigation(
 st.set_page_config(page_title="ASCII Art Creator",
                    page_icon=":material/edit:",
                    menu_items={
-                    'Get Help': 'https://www.extremelycoolapp.com/help',
-                    'Report a bug': "https://www.extremelycoolapp.com/bug",
+                    'Get Help': 'https://github.com/PierreMarieCurie/ASCII-Art-Generator',
+                    'Report a bug': "https://github.com/PierreMarieCurie/ASCII-Art-Generator/issues",
                     'About': "# This is a ASCCI art creator. Have fun with it!"
                     })
 pg.run()

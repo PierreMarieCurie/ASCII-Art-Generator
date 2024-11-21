@@ -3,7 +3,7 @@ import utils
 import cv2
 
 # Welcome title
-st.markdown("<h1 style='text-align: center;'>Portrait 🎨</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>Portrait mode 🎨</h1>", unsafe_allow_html=True)
         
 # Upload image
 st.session_state, is_file, is_new_image = utils.get_image(st.session_state)

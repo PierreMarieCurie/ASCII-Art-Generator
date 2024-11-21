@@ -124,7 +124,7 @@ Before you begin, ensure you have Docker installed on your machine. If not, down
 
 4. Run the container
     ```bash
-    docker run ascii-generator -p 1234:8501 
+    docker run -p 1234:8501 ascii-generator 
     ```
     This will start the app on port 1234. You can access it by navigating to http://localhost:1234 in your web browser.
 
