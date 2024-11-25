@@ -25,8 +25,8 @@
 # Author: zllrunning
 # 
 # Modifications made:
-# - removed a commented line of code
 # - added option to specify path for resnet18 URL
+# - TO DO LA APRTIE INIT_WEIGHT, 
 # changed by PierreMarieCurie
 
 import torch
@@ -105,7 +105,8 @@ class Resnet18(nn.Module):
         return feat8, feat16, feat32
 
     def init_weight(self, resnet18_url=RESNET18_URL):
-        state_dict = modelzoo.load_url(resnet18_url)
+#        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        state_dict = torch.load(resnet18_url, map_location="cpu")
         self_state_dict = self.state_dict()
         for k, v in state_dict.items():
             if 'fc' in k: continue

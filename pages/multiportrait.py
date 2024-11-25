@@ -129,5 +129,5 @@ if is_file:
                     else:
                         ascii_to_display = st.session_state["ascii"][i_face][1]    
                     left, right = st.columns(2, vertical_alignment="center")
-                    left.image(img_plot, use_column_width=True)
+                    left.image(img_plot, use_container_width=True)
                     right.code(ascii_to_display)

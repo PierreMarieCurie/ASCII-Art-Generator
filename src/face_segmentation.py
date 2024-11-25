@@ -4,8 +4,21 @@ import torch
 import numpy as np
 from .model import BiSeNet
 
-FACE_PARSING_WEIGHTS_PATHNAME = 'weights/face_parsing.pth'
-RESNET18_WEIGTHS_PATHNAME = 'weights/resnet18-5c106cde.pth'
+import os
+toto = os.path.abspath(os.getcwd()) + "/weights"
+
+import sys
+print(toto)
+sys.path.append(toto)
+
+
+FACE_PARSING_WEIGHTS_PATHNAME = toto + '/face_parsing.pth'
+RESNET18_WEIGTHS_PATHNAME = toto + '/resnet18-5c106cde.pth'
+print(FACE_PARSING_WEIGHTS_PATHNAME)
+print(os.path.isfile(FACE_PARSING_WEIGHTS_PATHNAME))
+print(RESNET18_WEIGTHS_PATHNAME)
+print(os.path.isfile(RESNET18_WEIGTHS_PATHNAME))
+
 FACE_PARTS = ['Background', 'Face', 'Left eyebrow', 'Right eyebrow',
     'Left eye', 'Right eye', 'Glasses', 'Left ear', 'Right ear',
     'Earrings', 'Noise', 'Inside the mouth', 'Upper lip', 'Lower lip',
@@ -17,14 +30,14 @@ BISENET_PREPROCESSING = transforms.Compose([
 ])
 
 class FaceSegmentation:
-    def __init__(self, device='cpu') -> None:
-        self.device = device
+    def __init__(self) -> None:
         self.net = self.initialize_model()
 
     def initialize_model(self):
         net = BiSeNet(n_classes=len(FACE_PARTS), resnet18_url=RESNET18_WEIGTHS_PATHNAME)
-        net.load_state_dict(torch.load(FACE_PARSING_WEIGHTS_PATHNAME), self.device)
-        net.to(self.device)
+        #device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        net.load_state_dict(torch.load(FACE_PARSING_WEIGHTS_PATHNAME, map_location="cpu"))
+        #net.to(device)
         net.eval()
         return net
 
@@ -38,13 +51,13 @@ class FaceSegmentation:
         im = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
 
         # Convert the image to a tensor and normalize it
-        im = BISENET_PREPROCESSING(im).to(self.device)
+        im = BISENET_PREPROCESSING(im)#.to('cpu')
 
         # Add a batch dimension
         im = torch.unsqueeze(im, 0)
 
         # Move the tensor to the GPU or stay on CPU
-        im = im.to(self.device)
+        #im = im.to('cpu')
         
         return im
 

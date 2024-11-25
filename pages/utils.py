@@ -120,10 +120,7 @@ def transform_image(img, setting, is_small_art):
 def load_face_segmentation_model(session_state):
     if 'model' not in session_state:
         with st.spinner("Face segmentation model initializing..."):
-            device = 'cuda' if torch.cuda.is_available() else 'cpu'
-            session_state['model'] = FaceSegmentation(device)
-            session_state["device"] = device
-    
+            session_state['model'] = FaceSegmentation()
     return session_state    
                     
 def get_largest_box(box1, box2):

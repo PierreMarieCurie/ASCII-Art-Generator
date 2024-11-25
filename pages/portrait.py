@@ -69,5 +69,5 @@ if is_file:
             else:
                 ascii_to_display = ascii[1]    
             left, right = st.columns(2, vertical_alignment="top")
-            left.image(img_plot, use_column_width=True)
+            left.image(img_plot, use_container_width=True)
             right.code(ascii_to_display)

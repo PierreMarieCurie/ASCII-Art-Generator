@@ -119,6 +119,8 @@ class ContextPath(nn.Module):
     def __init__(self, resnet18_url=None, *args, **kwargs):
         super(ContextPath, self).__init__()
         self.resnet = Resnet18(resnet18_url) if resnet18_url is not None else Resnet18()
+        #device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        #self.resnet.to(device)
         self.arm16 = AttentionRefinementModule(256, 128)
         self.arm32 = AttentionRefinementModule(512, 128)
         self.conv_head32 = ConvBNReLU(128, 128, ks=3, stride=1, padding=1)
