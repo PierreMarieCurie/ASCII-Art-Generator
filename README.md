@@ -1,6 +1,6 @@
 # ASCII-Art-Generator
 
-Welcome to the ASCII Art Creator! This tool allows you to transform images into stunning ASCII art.
+Welcome to the ultimate ASCII Art Creator ! This tool allows you to transform images into stunning ASCII art.
 
 ![Classic mode illustration](illustration/classic.jpg "Classic mode illustration")
 ![Multiportrait mode illustration](illustration/multiportrait.jpg "Multiportrait mode illustration")
