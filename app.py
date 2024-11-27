@@ -4,13 +4,6 @@ import sys
 PAGE_PATH = "pages"
 sys.path.append(PAGE_PATH)
 
-#import torch
-#state_dict = torch.load('/home/t0192782/perso/ASCII-Art-Generator/weights/face_parsing.pth', map_location="cpu")
-#for key, value in state_dict.items():
-#    print(f"{key}: {value.device}")
-
-#/home/t0192782/perso/ASCII-Art-Generator/weights/face_parsing.pth
-
 home_page = st.Page(PAGE_PATH + "/home.py", title="Home page", icon=":material/home:")
 classic_page = st.Page(PAGE_PATH + "/classic.py", url_path='classic', title="Classic mode", icon=":material/photo_frame:")
 portrait_page = st.Page(PAGE_PATH + "/portrait.py", url_path='portrait', title="Portrait mode", icon=":material/person:")
