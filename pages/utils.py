@@ -4,16 +4,16 @@ import numpy as np
 import cv2
 from src import ascii, dither
 from src.face_segmentation import FaceSegmentation
-import torch
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pbm', 'tiff', 'tif', 'bmp'}  # Define allowed file extensions
 
 FACE_PART_MAP = {
-                'Face 🦲':[1],
-                'Ears 👂':[7, 8],
-                'Clothes 👔':[16],
-                'Hair 🦱':[17],
-                'Background :material/background_replace:':[0]}
+                '&ensp;&ensp;&nbsp;Face 🦲&ensp;&ensp;&nbsp;':[1],
+                '&ensp;&ensp;&nbsp;&nbsp;Ears 👂&ensp;&ensp;&nbsp;&nbsp;':[7, 8],
+                '&ensp;&nbsp;Clothes 👔&ensp;&nbsp;':[16],
+                '&ensp;&ensp;&nbsp;Hair 🦱&ensp;&ensp;&nbsp;':[17],
+                '&nbsp;Background :material/background_replace:&nbsp;':[0]
+                }
 
 def load_image(file, session_state):
     
@@ -120,10 +120,7 @@ def transform_image(img, setting, is_small_art):
 def load_face_segmentation_model(session_state):
     if 'model' not in session_state:
         with st.spinner("Face segmentation model initializing..."):
-            device = 'cuda' if torch.cuda.is_available() else 'cpu'
-            session_state['model'] = FaceSegmentation(device)
-            session_state["device"] = device
-    
+            session_state['model'] = FaceSegmentation()
     return session_state    
                     
 def get_largest_box(box1, box2):
@@ -137,15 +134,13 @@ def get_largest_box(box1, box2):
                 max(box1[2], box2[2]),
                 max(box1[3], box2[3])]
 
-def get_face_part_indices(indices_disable=[]):
+def get_face_part_indices(indices_disabled=[]):
     indices = []
-    with st.container(border=True):
-        cols = st.columns(len(FACE_PART_MAP))
-        for index_col, (name, indices_face_part) in enumerate(FACE_PART_MAP.items()):
-            cols[index_col].write(name)
-            disable = all([index_face_part in indices_disable for index_face_part in indices_face_part])
-            _, c = cols[index_col].columns([1, 500])
-            if c.toggle(label=str(index_col), value=False, disabled=disable, label_visibility="hidden"):
-                for index_face_part in indices_face_part:
-                    indices.append(index_face_part)
+    #with st.container(border=True):
+    cols = st.columns(len(FACE_PART_MAP))
+    for index_col, (name, indices_face_part) in enumerate(FACE_PART_MAP.items()):
+        disabled = all([index_face_part in indices_disabled for index_face_part in indices_face_part])
+        if cols[index_col].segmented_control(label = str(index_col), options=name, disabled=disabled, label_visibility="collapsed") is not None:
+            for index_face_part in indices_face_part:
+                indices.append(index_face_part)
     return indices

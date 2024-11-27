@@ -4,7 +4,7 @@ import cv2
 
 # Welcome title
 st.markdown("<h1 style='text-align: center;'>Portrait mode 🎨</h1>", unsafe_allow_html=True)
-        
+
 # Upload image
 st.session_state, is_file, is_new_image = utils.get_image(st.session_state)
 if is_file:
@@ -38,8 +38,8 @@ if is_file:
     
     else:       
         # Get face part asked by the user
-        indices_disable = [i for i, box in enumerate(bboxes) if box is None]
-        indices_face_parts = utils.get_face_part_indices(indices_disable)
+        indices_disabled = [i for i, box in enumerate(bboxes) if box is None]
+        indices_face_parts = utils.get_face_part_indices(indices_disabled)
         
         # ASCII generation
         with st.spinner('ASCII in progress...'):
@@ -69,5 +69,5 @@ if is_file:
             else:
                 ascii_to_display = ascii[1]    
             left, right = st.columns(2, vertical_alignment="top")
-            left.image(img_plot, use_column_width=True)
+            left.image(img_plot, use_container_width=True)
             right.code(ascii_to_display)

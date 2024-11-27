@@ -3,8 +3,8 @@ import utils
 
 # Welcome title
 st.markdown("<h1 style='text-align: center;'>Classic mode 🎨</h1>", unsafe_allow_html=True)
-# Upload image
 
+# Upload image
 st.session_state, is_file, is_new_image = utils.get_image(st.session_state)
 if is_file:
     
@@ -32,5 +32,5 @@ if is_file:
             _, center, _ = st.columns([2, 3.5, 2])
             center.code(ascii_to_display)
         else:
-            st.code(ascii_to_display)      
+            st.code(ascii_to_display)
         
