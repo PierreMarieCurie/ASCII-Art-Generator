@@ -60,7 +60,7 @@ Before you begin, ensure you have Docker installed on your machine. If not, down
 
 1. Clone the repository to your local machine:
     ```bash
-    git clone --depth 1 https://github.com/your-username/ascii-art-creator.git
+    git clone https://github.com/your-username/ascii-art-creator.git --depth 1
     ```
 
 2. Navigate to the project directory:
@@ -91,4 +91,5 @@ This project is licensed under the [MIT License](LICENSE). You can find the full
 - Face segmentation : [Face-parsing.PyTorch from zllrunning](https://github.com/zllrunning/face-parsing.PyTorch/tree/master)
 - Dithering : [Luke Polson](https://github.com/lukepolson/youtube_channel/blob/main/Python%20Metaphysics%20Series/vid39.ipynb)
 
-TO DO : change illustration in readme and homepage !!
+# TO DO
+- Add GPU support for face segmentation

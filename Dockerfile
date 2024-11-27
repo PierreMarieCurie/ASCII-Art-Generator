@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /home
 
 RUN  apt-get update \
-  && apt-get install -y wget \
+  && apt-get install -y  --no-install-recommends wget \
   && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir weights
