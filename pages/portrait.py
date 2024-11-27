@@ -63,7 +63,8 @@ if is_file:
             
             # Display images
             img_plot = st.session_state['img'].copy()
-            cv2.rectangle(img_plot, (dimension[0], dimension[1]), (dimension[2], dimension[3]), (255, 0, 0), 2)
+            thickness = max(1, int(min(img_plot.shape[:2])*0.01))
+            cv2.rectangle(img_plot, (dimension[0], dimension[1]), (dimension[2], dimension[3]), (255, 0, 0), thickness)
             if flag_darkmode:
                 ascii_to_display = ascii[0]
             else:
