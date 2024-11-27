@@ -20,4 +20,4 @@ RUN pip install -r requirements.txt --no-cache-dir --root-user-action=ignore
 
 COPY . /home
 
-ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8501"]
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8501", "--browser.gatherUsageStats", "false"]

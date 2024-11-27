@@ -3,21 +3,11 @@ import cv2
 import torch
 import numpy as np
 from .model import BiSeNet
-
 import os
-toto = os.path.abspath(os.getcwd()) + "/weights"
 
-import sys
-print(toto)
-sys.path.append(toto)
-
-
-FACE_PARSING_WEIGHTS_PATHNAME = toto + '/face_parsing.pth'
-RESNET18_WEIGTHS_PATHNAME = toto + '/resnet18-5c106cde.pth'
-print(FACE_PARSING_WEIGHTS_PATHNAME)
-print(os.path.isfile(FACE_PARSING_WEIGHTS_PATHNAME))
-print(RESNET18_WEIGTHS_PATHNAME)
-print(os.path.isfile(RESNET18_WEIGTHS_PATHNAME))
+WEIGHTS_PATHNAME = "weights"
+FACE_PARSING_WEIGHTS_PATHNAME = os.path.join(WEIGHTS_PATHNAME, 'face_parsing.pth')
+RESNET18_WEIGTHS_PATHNAME = os.path.join(WEIGHTS_PATHNAME, 'resnet18-5c106cde.pth')
 
 FACE_PARTS = ['Background', 'Face', 'Left eyebrow', 'Right eyebrow',
     'Left eye', 'Right eye', 'Glasses', 'Left ear', 'Right ear',

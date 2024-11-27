@@ -2,9 +2,7 @@ import streamlit as st
 import sys
 
 PAGE_PATH = "pages"
-#SOURCE_PATH = "src"
 sys.path.append(PAGE_PATH)
-sys.path.append('weights')
 
 #import torch
 #state_dict = torch.load('/home/t0192782/perso/ASCII-Art-Generator/weights/face_parsing.pth', map_location="cpu")

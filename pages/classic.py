@@ -32,5 +32,5 @@ if is_file:
             _, center, _ = st.columns([2, 3.5, 2])
             center.code(ascii_to_display)
         else:
-            st.code(ascii_to_display)      
+            st.code(ascii_to_display)
         
