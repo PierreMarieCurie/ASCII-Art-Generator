@@ -24,6 +24,6 @@ st.set_page_config(page_title="ASCII Art Creator",
                    menu_items={
                     'Get Help': 'https://github.com/PierreMarieCurie/ASCII-Art-Generator',
                     'Report a bug': "https://github.com/PierreMarieCurie/ASCII-Art-Generator/issues",
-                    'About': "# This is a ASCCI art creator. Have fun with it!"
+                    'About': "# This is a ASCII art creator. Have fun with it!"
                     })
 pg.run()
