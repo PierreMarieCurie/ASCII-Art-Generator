@@ -120,10 +120,11 @@ if is_file:
                 for i_face in range(N_face):    
                     
                     img_plot = st.session_state["img_faces"][i_face].copy()
+                    thickness = max(1, int(min(img_plot.shape[:2])*0.01))
                     cv2.rectangle(img_plot,
                                   (dimensions_after_selection[i_face][0], dimensions_after_selection[i_face][1]),
                                   (dimensions_after_selection[i_face][2], dimensions_after_selection[i_face][3]),
-                                  (255, 0, 0), 2)
+                                  (255, 0, 0), thickness)
                     if flag_darkmode:
                         ascii_to_display = st.session_state["ascii"][i_face][0]
                     else:
